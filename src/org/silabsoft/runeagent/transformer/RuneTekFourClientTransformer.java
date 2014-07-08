@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.silabsoft.runeagent.util.impl;
+package org.silabsoft.runeagent.transformer;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,10 +70,12 @@ public class RuneTekFourClientTransformer extends ClassModifier {
         if (instruction instanceof GETSTATIC) {
             GETSTATIC s = ((GETSTATIC) instruction);
 
-            init.append(factory.createGetStatic(this.getClassName(), s.getFieldName(mg.getConstantPool()), s.getFieldType(mg.getConstantPool())));
+            init.append(instruction);
         } else {
+            init.append(new ALOAD(0));
             GETFIELD s = ((GETFIELD) instruction);
-            init.append(factory.createGetStatic(this.getClassName(), s.getFieldName(mg.getConstantPool()), s.getFieldType(mg.getConstantPool())));
+            
+            init.append(instruction);
         }
         init.append(factory.createInvoke(transformer.getClass().getCanonicalName(), "setOutStream", Type.VOID, new Type[]{ObjectType.OBJECT}, Constants.INVOKESTATIC));
         methodInstruct.insert(methodInstruct.getStart(), init);

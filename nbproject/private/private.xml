@@ -3,23 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/hook/GenericByteStream.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/Premain.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/event/RuneAgentEvent.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/util/Requirements.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/event/TransformerEvent.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/transformer/AgentTransformer.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/listener/RuneAgentEventListener.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/event/RuneAgentEventTypes.java</file>
             <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/util/MethodWrapper.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/listener/TransformerListener.java</file>
+            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/Premain.java</file>
+            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/diversionclient.js</file>
             <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/RuneAgent.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/gui/AgentFrameGeneric.java</file>
             <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/util/ClassModifier.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/util/RequirementsException.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/util/FieldWrapper.java</file>
+            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/util/impl/RuneTekFourClientTransformer.java</file>
+            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/transformer/AgentTransformer.java</file>
             <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/transformer/RuneTekFourTransformer.java</file>
-            <file>file:/C:/Users/unsignedbyte/Documents/NetBeansProjects/RuneAgent/src/org/silabsoft/runeagent/gui/AgentFrame.java</file>
         </group>
     </open-files>
 </project-private>

@@ -82,7 +82,7 @@ public interface GenericByteStream {
             parameters = "#"
     )
 
-    public void p8(int value);
+    public void p8(long value);
 
     @ByteStreamMeta(
             name = "pjstr",

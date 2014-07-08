@@ -193,7 +193,7 @@ public class GenericOutStreamPanel extends javax.swing.JPanel {
         try {
             engine.eval(scriptTextArea.getText());
         } catch (ScriptException ex) {
-            logEvent(scriptTextArea, ex.getMessage());
+            logEvent(eventLog, ex.getMessage());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -204,7 +204,9 @@ public class GenericOutStreamPanel extends javax.swing.JPanel {
             if (o != null) {
                 if (o instanceof ByteStreamMeta) {
                     ByteStreamMeta bsm = (ByteStreamMeta) o;
-                    scriptTextArea.append("stream." + bsm.name() + "(" + bsm.parameters() + ");");
+                    
+                    scriptTextArea.append("stream." + bsm.name() + "(" + bsm.parameters() + ");\n");
+                    scriptTextArea.setCaretPosition(scriptTextArea.getText().length());
                 }
             }
         }
