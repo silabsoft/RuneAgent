@@ -4,16 +4,12 @@
  * and open the template in the editor.
  */
 
-package org.silabsoft.runeagent.gui;
-
-import java.awt.Component;
+package org.silabsoft.runeagent.hook;
 
 /**
  *
  * @author unsignedbyte
  */
-public interface AgentFrame {
-
-    public void addTab(Component component, String title);
+public interface GenericGameClient {
     
 }

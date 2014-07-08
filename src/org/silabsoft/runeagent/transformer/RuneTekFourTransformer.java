@@ -7,26 +7,27 @@ package org.silabsoft.runeagent.transformer;
 
 import java.io.ByteArrayInputStream;
 import java.security.ProtectionDomain;
-import java.util.HashMap;
+import javax.swing.JTextArea;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.generic.ClassGen;
 import org.apache.bcel.generic.ObjectType;
 import org.silabsoft.runeagent.RuneAgent;
 import org.silabsoft.runeagent.event.TransformerEvent;
+import org.silabsoft.runeagent.gui.GenericOutStreamPanel;
 import org.silabsoft.runeagent.util.ClassModifier;
-import org.silabsoft.runeagent.util.Requirements;
 
 /**
  *
  * @author unsignedbyte
  */
-public class RuneTekFourTransformer extends AgentTransformer implements Requirements {
+public class RuneTekFourTransformer extends AgentTransformer {
 
-    private final HashMap<String, ClassModifier> modifiers;
+    public static GenericOutStreamPanel panel;
 
     public RuneTekFourTransformer(RuneAgent agent) {
         super(agent);
-        this.modifiers = new HashMap<String, ClassModifier>();
+        panel = new GenericOutStreamPanel(agent.getEngine());
+        agent.getAgentFrame().addTab(panel, "OutStream");
     }
 
     @Override
@@ -38,15 +39,12 @@ public class RuneTekFourTransformer extends AgentTransformer implements Requirem
             try {
                 byte[] data = m.transform(new ClassGen(new ClassParser(new ByteArrayInputStream(classFileBuffer), null).parse()), this);
                 agent.getModifiedObjects().put(m.getIdentity(), new ObjectType(m.getClassName()));
-                if(checkRequirements())
-                    setOutStreamPanel();
                 return data;
             } catch (Exception e) {
                 e.printStackTrace();
                 agent.fireRuneAgentEvent(new TransformerEvent(this.getClass().getName(), "Error Transforming: " + m.getIdentity() + " => " + e));
             }
         }
-
         return classFileBuffer;
     }
 
@@ -54,25 +52,11 @@ public class RuneTekFourTransformer extends AgentTransformer implements Requirem
         this.modifiers.put(cm.getClassName(), cm);
     }
 
-    @Override
-    public String[] getRequirementIdentities() {
-        return new String[]{"ByteStream", "Client", "OutStream Hook"};
-    }
+    public static void setOutStream(Object o) {
 
-    @Override
-    public boolean checkRequirements() {
-        for (String requirement : this.getRequirementIdentities()) {
-            if (agent.getModifiedObjects().get(requirement) == null) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void setOutStreamPanel() {
-    
+        panel.addOutStreamObject(o);
     }
     public static void log(String s){
-        System.out.println(s);
+        panel.logEvent((JTextArea) panel.getOutStreamLogComponent(), s);
     }
 }

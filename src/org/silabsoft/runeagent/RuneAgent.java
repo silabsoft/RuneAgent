@@ -23,7 +23,7 @@ import org.silabsoft.runeagent.transformer.AgentTransformer;
  * @author unsignedbyte
  */
 public class RuneAgent {
-
+    public static final double VERSION = 1.0d;
     private List<RuneAgentEventListener> listeners;
     private AgentFrame agentFrame;
     private final ScriptEngine engine;
@@ -83,7 +83,6 @@ public class RuneAgent {
     }
 
     public void addTransformer(AgentTransformer transformer) {
-        System.out.println(this.instrumentation.isRetransformClassesSupported());
         this.instrumentation.addTransformer(transformer);
 
         this.fireRuneAgentEvent(new RuneAgentEvent(RuneAgentEventTypes.AGENT_TRANSFORMER_ADDED, transformer));

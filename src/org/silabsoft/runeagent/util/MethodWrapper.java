@@ -24,7 +24,10 @@ public class MethodWrapper extends Identifiable{
         this.returnType =returnType;
     }
 
+    public MethodWrapper(String identity, String methodName,String signature,boolean doLogging) {
+       this(identity,methodName,signature,doLogging,null);
 
+    }
     public String getMethodName() {
         return methodName;
     }

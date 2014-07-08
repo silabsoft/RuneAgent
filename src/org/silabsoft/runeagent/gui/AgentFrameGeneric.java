@@ -5,8 +5,12 @@
  */
 package org.silabsoft.runeagent.gui;
 
+import java.awt.Component;
+import java.awt.Desktop;
+import java.net.URL;
 import java.sql.Timestamp;
 import javax.swing.DefaultListModel;
+import org.silabsoft.runeagent.RuneAgent;
 import org.silabsoft.runeagent.event.RuneAgentEvent;
 import org.silabsoft.runeagent.event.RuneAgentEventTypes;
 import org.silabsoft.runeagent.event.TransformerEvent;
@@ -16,7 +20,7 @@ import org.silabsoft.runeagent.listener.RuneAgentEventListener;
  *
  * @author unsignedbyte
  */
-public class AgentFrameGeneric extends javax.swing.JFrame implements RuneAgentEventListener, AgentFrame{
+public class AgentFrameGeneric extends javax.swing.JFrame implements RuneAgentEventListener, AgentFrame {
 
     /**
      * Creates new form AgentFrame
@@ -39,9 +43,11 @@ public class AgentFrameGeneric extends javax.swing.JFrame implements RuneAgentEv
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Rune Agent");
+        setTitle("Rune Agent Ver. "+RuneAgent.VERSION+" by Silabsoft");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Rune Agent Log:"));
 
@@ -53,11 +59,11 @@ public class AgentFrameGeneric extends javax.swing.JFrame implements RuneAgentEv
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -73,23 +79,47 @@ public class AgentFrameGeneric extends javax.swing.JFrame implements RuneAgentEv
 
         jTabbedPane1.addTab("Main", jPanel1);
 
+        jMenu1.setText("Forums");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 562, Short.MAX_VALUE)
+            .addGap(0, 742, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jTabbedPane1))
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 421, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jTabbedPane1))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+
+        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(new URL("http://silabsoft.org/forum/categories/rune-agent").toURI());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jMenu1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -133,6 +163,8 @@ public class AgentFrameGeneric extends javax.swing.JFrame implements RuneAgentEv
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
@@ -142,10 +174,14 @@ public class AgentFrameGeneric extends javax.swing.JFrame implements RuneAgentEv
 
     @Override
     public void onRuneAgentEvent(RuneAgentEvent e) {
-        if(e.getType().equals(RuneAgentEventTypes.TRANSFORMER_EVENT)){
-            logString(((TransformerEvent)e).toString());
-        }else{
-         logString(e.getType()+" ");
+        if (e.getType().equals(RuneAgentEventTypes.TRANSFORMER_EVENT)) {
+            logString(((TransformerEvent) e).toString());
+        } else {
+            logString(e.getType() + " ");
         }
+    }
+
+    public void addTab(Component component, String title) {
+        this.jTabbedPane1.addTab(title, component);
     }
 }
