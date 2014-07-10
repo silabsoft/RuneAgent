@@ -74,9 +74,11 @@ public class ClassModifier extends Identifiable {
     public void addScript(TransformerScript s) {
         this.scripts.add(s);
     }
-    public void setReturnClassName(String s){
+
+    public void setReturnClassName(String s) {
         this.returnClassName = s;
     }
+
     public byte[] transform(ClassGen classGen, AgentTransformer transformer) {
         if (getInterfaceName() != null) {
             classGen.addInterface(getInterfaceName());
@@ -108,7 +110,7 @@ public class ClassModifier extends Identifiable {
     }
 
     private void addFieldGetter(ClassGen classGen, FieldWrapper fw) {
-    
+
         InstructionList il = new InstructionList();
         MethodGen mg = new MethodGen(Constants.ACC_PUBLIC, getType(fw.getCastType() == null ? fw.getFieldType() : fw.getCastType()), Type.NO_ARGS, null, "get" + fw.getSuffixMethodName(), classGen.getClassName(), il, cpg);
         il.append(new ALOAD(0));
@@ -168,7 +170,7 @@ public class ClassModifier extends Identifiable {
         MethodGen methodGen
                 = new MethodGen(Constants.ACC_PUBLIC, type, types,
                         argName, m.getIdentity(), classGen.getClassName(), list, cpg);
-        list .append(InstructionFactory.createLoad(Type.OBJECT, 0));
+        list.append(InstructionFactory.createLoad(Type.OBJECT, 0));
         for (int i = 0; i < types.length; i++) {
 
             list.append(InstructionFactory.createLoad(types[i], 1 + i));
@@ -200,7 +202,9 @@ public class ClassModifier extends Identifiable {
                     t[i] = Type.INT;
                 }
                 b.append(factory.createInvoke("java.lang.StringBuilder", "append", STRING_BUILDER_TYPE, new Type[]{t[i]}, Constants.INVOKEVIRTUAL));
-                b.append(factory.createConstant(","));
+                if (i != t.length - 1) {
+                    b.append(factory.createConstant(","));
+                }
                 b.append(factory.createInvoke("java.lang.StringBuilder", "append", STRING_BUILDER_TYPE, new Type[]{Type.STRING}, Constants.INVOKEVIRTUAL));
             }
 

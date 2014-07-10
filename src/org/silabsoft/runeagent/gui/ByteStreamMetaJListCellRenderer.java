@@ -24,8 +24,8 @@ public class ByteStreamMetaJListCellRenderer extends DefaultListCellRenderer {
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         if (value instanceof ByteStreamMeta) {
            ByteStreamMeta bsm = (ByteStreamMeta)value;
-            setText(bsm.name());
-            setToolTipText(bsm.name());
+            setText(bsm.displayName().length() == 0 ? bsm.methodName() : bsm.displayName());
+            setToolTipText(bsm.methodName());
         }
         return this;
     }

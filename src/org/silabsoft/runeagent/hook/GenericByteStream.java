@@ -12,80 +12,81 @@ package org.silabsoft.runeagent.hook;
 public interface GenericByteStream {
 
     @ByteStreamMeta(
-            name = "p1isaac",
+            methodName = "p1isaac",
+            displayName = "p1isaac",
             parameters = "#"
     )
     public void p1isaac(int value);
 
     @ByteStreamMeta(
-            name = "p1",
+            methodName = "p1",
             parameters = "#"
     )
     public void p1(int value);
 
     @ByteStreamMeta(
-            name = "sp1",
+            methodName = "sp1",
             parameters = "#"
     )
     public void sp1(int value);
 
     @ByteStreamMeta(
-            name = "np1",
+            methodName = "np1",
             parameters = "#"
     )
     public void np1(int value);
 
     @ByteStreamMeta(
-            name = "p2",
+            methodName = "p2",
             parameters = "#"
     )
     public void p2(int value);
 
     @ByteStreamMeta(
-            name = "ip2",
+            methodName = "ip2",
             parameters = "#"
     )
     public void ip2(int value);
 
     @ByteStreamMeta(
-            name = "isp2",
+            methodName = "isp2",
             parameters = "#"
     )
     public void isp2(int value);
 
     @ByteStreamMeta(
-            name = "sp2",
+            methodName = "sp2",
             parameters = "#"
     )
     public void sp2(int value);
 
     @ByteStreamMeta(
-            name = "p4",
+            methodName = "p4",
             parameters = "#"
     )
     public void p4(int value);
 
     @ByteStreamMeta(
-            name = "ip4",
+            methodName = "ip4",
             parameters = "#"
     )
     public void ip4(int value);
 
     @ByteStreamMeta(
-            name = "sp4",
+            methodName = "sp4",
             parameters = "#"
     )
     public void sp4(int value);
 
     @ByteStreamMeta(
-            name = "p8",
+            methodName = "p8",
             parameters = "#"
     )
 
     public void p8(long value);
 
     @ByteStreamMeta(
-            name = "pjstr",
+            methodName = "pjstr",
             parameters = "\"\""
     )
     public void pjstr(String value);

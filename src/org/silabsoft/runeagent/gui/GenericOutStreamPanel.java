@@ -142,6 +142,8 @@ public class GenericOutStreamPanel extends javax.swing.JPanel {
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
         );
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Script:"));
+
         scriptTextArea.setColumns(20);
         scriptTextArea.setRows(5);
         jScrollPane3.setViewportView(scriptTextArea);
@@ -205,7 +207,7 @@ public class GenericOutStreamPanel extends javax.swing.JPanel {
                 if (o instanceof ByteStreamMeta) {
                     ByteStreamMeta bsm = (ByteStreamMeta) o;
                     
-                    scriptTextArea.append("stream." + bsm.name() + "(" + bsm.parameters() + ");\n");
+                    scriptTextArea.append("stream." + bsm.methodName() + "(" + bsm.parameters() + ");\n");
                     scriptTextArea.setCaretPosition(scriptTextArea.getText().length());
                 }
             }

@@ -16,6 +16,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ByteStreamMeta {
     
-    public String name() ;
+    public String methodName();
+    public String displayName() default "";
     public String parameters() ;
 }

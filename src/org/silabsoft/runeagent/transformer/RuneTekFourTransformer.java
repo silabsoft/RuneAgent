@@ -57,6 +57,6 @@ public class RuneTekFourTransformer extends AgentTransformer {
         panel.addOutStreamObject(o);
     }
     public static void log(String s){
-        panel.logEvent((JTextArea) panel.getOutStreamLogComponent(), s);
+        panel.logEvent((JTextArea) panel.getOutStreamLogComponent(), "stream."+s);
     }
 }
