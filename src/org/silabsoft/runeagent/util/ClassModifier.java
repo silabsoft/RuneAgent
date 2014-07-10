@@ -201,11 +201,13 @@ public class ClassModifier extends Identifiable {
                 if (t[i].equals(Type.BYTE)) {
                     t[i] = Type.INT;
                 }
+
                 b.append(factory.createInvoke("java.lang.StringBuilder", "append", STRING_BUILDER_TYPE, new Type[]{t[i]}, Constants.INVOKEVIRTUAL));
-                if (i != t.length - 1) {
+                if (i != (t.length - 1)) {
                     b.append(factory.createConstant(","));
+
+                    b.append(factory.createInvoke("java.lang.StringBuilder", "append", STRING_BUILDER_TYPE, new Type[]{Type.STRING}, Constants.INVOKEVIRTUAL));
                 }
-                b.append(factory.createInvoke("java.lang.StringBuilder", "append", STRING_BUILDER_TYPE, new Type[]{Type.STRING}, Constants.INVOKEVIRTUAL));
             }
 
             b.append(factory.createConstant(")"));

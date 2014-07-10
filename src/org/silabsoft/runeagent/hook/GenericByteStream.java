@@ -13,7 +13,7 @@ public interface GenericByteStream {
 
     @ByteStreamMeta(
             methodName = "p1isaac",
-            displayName = "p1isaac",
+            displayName = "createFrame",
             parameters = "#"
     )
     public void p1isaac(int value);
