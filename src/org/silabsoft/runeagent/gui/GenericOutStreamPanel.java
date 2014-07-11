@@ -11,6 +11,9 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 import org.silabsoft.runeagent.hook.ByteStreamMeta;
 
 /**
@@ -50,8 +53,8 @@ public class GenericOutStreamPanel extends javax.swing.JPanel {
         jScrollPane4 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jPanel5 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        scriptTextArea = new javax.swing.JTextArea();
+        rTextScrollPane1 = new org.fife.ui.rtextarea.RTextScrollPane();
+        scriptArea = new org.fife.ui.rsyntaxtextarea.RSyntaxTextArea(5,20);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("OutStreamLog"));
 
@@ -144,19 +147,26 @@ public class GenericOutStreamPanel extends javax.swing.JPanel {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Script:"));
 
-        scriptTextArea.setColumns(20);
-        scriptTextArea.setRows(5);
-        jScrollPane3.setViewportView(scriptTextArea);
+        scriptArea.setColumns(20);
+        scriptArea.setRows(5);
+        scriptArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
+        scriptArea.setCodeFoldingEnabled(true);
+        scriptArea.setAntiAliasingEnabled(true);
+        rTextScrollPane1.setViewportView(scriptArea);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3)
+            .addGap(0, 349, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(rTextScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3)
+            .addGap(0, 235, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(rTextScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -193,7 +203,7 @@ public class GenericOutStreamPanel extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            engine.eval(scriptTextArea.getText());
+            engine.eval(scriptArea.getText());
         } catch (ScriptException ex) {
             logEvent(eventLog, ex.getMessage());
         }
@@ -206,9 +216,9 @@ public class GenericOutStreamPanel extends javax.swing.JPanel {
             if (o != null) {
                 if (o instanceof ByteStreamMeta) {
                     ByteStreamMeta bsm = (ByteStreamMeta) o;
-                    
-                    scriptTextArea.append("stream." + bsm.methodName() + "(" + bsm.parameters() + ");\n");
-                    scriptTextArea.setCaretPosition(scriptTextArea.getText().length());
+
+                    scriptArea.append("stream." + bsm.methodName() + "(" + bsm.parameters() + ");\n");
+                    scriptArea.setCaretPosition(scriptArea.getText().length());
                 }
             }
         }
@@ -226,11 +236,11 @@ public class GenericOutStreamPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JToggleButton logToggle;
     private javax.swing.JTextArea outputStreamLog;
-    private javax.swing.JTextArea scriptTextArea;
+    private org.fife.ui.rtextarea.RTextScrollPane rTextScrollPane1;
+    private org.fife.ui.rsyntaxtextarea.RSyntaxTextArea scriptArea;
     // End of variables declaration//GEN-END:variables
 
     public void addOutStreamObject(Object o) {
