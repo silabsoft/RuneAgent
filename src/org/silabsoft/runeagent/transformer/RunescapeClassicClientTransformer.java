@@ -5,12 +5,14 @@
  */
 package org.silabsoft.runeagent.transformer;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.ALOAD;
 import org.apache.bcel.generic.ClassGen;
 import org.apache.bcel.generic.GETFIELD;
-import org.apache.bcel.generic.GETSTATIC;
 import org.apache.bcel.generic.Instruction;
 import org.apache.bcel.generic.InstructionFactory;
 import org.apache.bcel.generic.InstructionHandle;
@@ -25,65 +27,66 @@ import org.silabsoft.runeagent.util.ClassModifier;
  *
  * @author unsignedbyte
  */
-public class RuneTekFourClientTransformer extends ClassModifier {
+public class RunescapeClassicClientTransformer extends ClassModifier {
 
-    private final ObjectType isaac;
+    private final ObjectType stream;
 
-    public RuneTekFourClientTransformer(String identity, String className, String interfaceName, String isaac) {
+    public RunescapeClassicClientTransformer(String identity, String className, String interfaceName, String stream) {
         super(identity, className, interfaceName);
-        this.isaac = new ObjectType(isaac);
+        this.stream = new ObjectType(stream);
     }
 
     @Override
     public byte[] transform(ClassGen classGen, AgentTransformer transformer) {
         super.transform(classGen, transformer);
-
+        boolean found = false;
+        boolean finished = false;
         for (Method m : classGen.getMethods()) {
             MethodGen mg = new MethodGen(m, classGen.getClassName(), classGen.getConstantPool());
             InstructionList il = mg.getInstructionList();
-            if(il == null){
+            if (il == null) {
                 continue;
             }
             for (InstructionHandle h : il.getInstructionHandles()) {
                 Instruction x = h.getInstruction();
                 if (x instanceof NEW) {
                     Type lct = ((NEW) x).getLoadClassType(mg.getConstantPool());
-                    if (lct.equals(isaac)) {
-                        Instruction prev = h.getPrev().getInstruction();
-                        if (prev instanceof GETFIELD || prev instanceof GETSTATIC) {
-                            insertTransformerHook(classGen, mg, prev, transformer);
-                        }
+                    if (lct.equals(stream)) {
+                        found = true;
+                    }
+                }
+                if (x instanceof GETFIELD && found && !finished) {
+                    GETFIELD pf = ((GETFIELD) x);
+                    if (pf.getFieldType(mg.getConstantPool()).equals(stream)) {
+                        insertTransformerHook(classGen, mg, x, transformer);
+                        finished = true;
                     }
                 }
             }
 
         }
-
+        try {
+            classGen.getJavaClass().dump("Test.class");
+        } catch (IOException ex) {
+            Logger.getLogger(RunescapeClassicClientTransformer.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return classGen.getJavaClass().getBytes();
     }
 
-
     private void insertTransformerHook(ClassGen classGen, MethodGen mg, Instruction instruction, AgentTransformer transformer) {
-        classGen.removeMethod(mg.getMethod());
+
         InstructionList init = new InstructionList();
         InstructionFactory factory = new InstructionFactory(classGen, classGen.getConstantPool());
-        MethodGen mgn = new MethodGen(mg.getMethod(), classGen.getClassName(), classGen.getConstantPool());
+        MethodGen mgn = mg;
         InstructionList methodInstruct = mgn.getInstructionList();
-        if (instruction instanceof GETSTATIC) {
-            GETSTATIC s = ((GETSTATIC) instruction);
-
-            init.append(instruction);
-        } else {
-            init.append(new ALOAD(0));
-            GETFIELD s = ((GETFIELD) instruction);
-
-            init.append(instruction);
-        }
+        init.append(instruction);
         init.append(factory.createInvoke(transformer.getClass().getCanonicalName(), "setOutStream", Type.VOID, new Type[]{ObjectType.OBJECT}, Constants.INVOKESTATIC));
-        methodInstruct.insert(methodInstruct.getStart(), init);
+        init.append(new ALOAD(0));
+        methodInstruct.insert(instruction, init);
         mgn.setMaxLocals();
         mgn.setMaxStack();
         transformer.getAgent().getModifiedObjects().put("OutStream Hook", true);
-        classGen.addMethod(mgn.getMethod());
+        classGen.replaceMethod(mg.getMethod(), mgn.getMethod());
+        System.out.println("called");
     }
 }

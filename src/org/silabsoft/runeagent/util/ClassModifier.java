@@ -7,6 +7,7 @@ package org.silabsoft.runeagent.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,10 +91,12 @@ public class ClassModifier extends Identifiable {
             addFieldGetter(classGen, fw);
             addFieldSetter(classGen, fw);
             transformer.getAgent().getModifiedObjects().put(fw.getIdentity(), fw);
+            System.out.println(fw.identity + " => hooked");
         }
         for (MethodWrapper mw : methodWrapper) {
             addMethodWrap(classGen, mw, transformer);
             transformer.getAgent().getModifiedObjects().put(mw.getIdentity(), mw);
+            System.out.println(mw.identity + " => hooked");
         }
         for (TransformerScript s : scripts) {
             try {
@@ -105,6 +108,11 @@ public class ClassModifier extends Identifiable {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(ClassModifier.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        try {
+            classGen.getJavaClass().dump(identity + ".class");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         return classGen.getJavaClass().getBytes();
     }
@@ -179,12 +187,40 @@ public class ClassModifier extends Identifiable {
         list.append(InstructionFactory.createReturn(type));
         methodGen.setMaxStack();
         methodGen.setMaxLocals();
-
         classGen.addMethod(methodGen.getMethod());
         list.dispose();
+        if (m.getSpecial() != null) {
+            list = new InstructionList();
+            types = Type.getArgumentTypes(m.getSignature());
+            argName = new String[types.length];
+            for (int i = 0; i < argName.length; i++) {
+                argName[i] = "v" + i;
+            }
+            type = m.getReturnType() == null ? Type.VOID : getType(m.getReturnType());
+             methodGen
+                    = new MethodGen(Constants.ACC_PUBLIC, type, types,
+                            argName, m.getMethodName(), classGen.getClassName(), list, cpg);
+         
+            list.append(InstructionFactory.createLoad(Type.OBJECT, 0));
+            for (int i = 0; i < types.length; i++) {
+
+                list.append(InstructionFactory.createLoad(types[i], 1 + i));
+            }
+       
+            list.append(factory.createInvoke(m.getSpecial(), m.getMethodName(), type, methodGen.getArgumentTypes(), Constants.INVOKESPECIAL));
+            list.append(InstructionFactory.createReturn(type));
+            methodGen.setMaxStack();
+            methodGen.setMaxLocals();
+            classGen.addMethod(methodGen.getMethod());
+   
+        
+            list.dispose();
+        }
+            
         if (m.doLogging() && returnClassName != null) {
             String sig = m.getSignature();
-            Method e = classGen.containsMethod(m.getMethodName(), sig);
+            Method e =  classGen.containsMethod(m.getMethodName(), sig);
+     
             methodGen = new MethodGen(e, classGen.getClassName(), cpg);
             list = methodGen.getInstructionList();
             InstructionList b = new InstructionList();

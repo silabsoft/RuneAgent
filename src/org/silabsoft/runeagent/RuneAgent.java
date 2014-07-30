@@ -23,7 +23,7 @@ import org.silabsoft.runeagent.transformer.AgentTransformer;
  * @author unsignedbyte
  */
 public class RuneAgent {
-    public static final double VERSION = 1.1d;
+    public static final double VERSION = 1.3d;
     private List<RuneAgentEventListener> listeners;
     private AgentFrame agentFrame;
     private final ScriptEngine engine;

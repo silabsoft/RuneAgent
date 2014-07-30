@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.silabsoft.runeagent.transformer;
 
 import java.io.ByteArrayInputStream;
@@ -14,6 +9,7 @@ import org.apache.bcel.generic.ObjectType;
 import org.silabsoft.runeagent.RuneAgent;
 import org.silabsoft.runeagent.event.TransformerEvent;
 import org.silabsoft.runeagent.gui.GenericOutStreamPanel;
+import org.silabsoft.runeagent.transformer.AgentTransformer;
 import org.silabsoft.runeagent.util.ClassModifier;
 
 /**
@@ -25,15 +21,19 @@ public class RuneTekFourTransformer extends AgentTransformer {
     public static GenericOutStreamPanel panel;
 
     public RuneTekFourTransformer(RuneAgent agent) {
+        this(agent, new GenericOutStreamPanel(agent.getEngine()));
+    }
+
+    public RuneTekFourTransformer(RuneAgent agent, GenericOutStreamPanel panel) {
         super(agent);
-        panel = new GenericOutStreamPanel(agent.getEngine());
+        this.panel = panel;
         agent.getAgentFrame().addTab(panel, "OutStream");
     }
 
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classFileBuffer) {
-        ClassModifier m = modifiers.get(className.replaceAll("/", "."));
 
+        ClassModifier m = modifiers.get(className.replaceAll("/", "."));
         if (m != null) {
             agent.fireRuneAgentEvent(new TransformerEvent(this.getClass().getName(), "Found: " + m.getIdentity() + " => " + m.getClassName()));
             try {
@@ -49,6 +49,7 @@ public class RuneTekFourTransformer extends AgentTransformer {
     }
 
     public void addClassModifier(ClassModifier cm) {
+        agent.fireRuneAgentEvent(new TransformerEvent("Modifier Added: ", cm.getClassName()));
         this.modifiers.put(cm.getClassName(), cm);
     }
 
@@ -56,7 +57,8 @@ public class RuneTekFourTransformer extends AgentTransformer {
 
         panel.addOutStreamObject(o);
     }
-    public static void log(String s){
-        panel.logEvent((JTextArea) panel.getOutStreamLogComponent(), "stream."+s);
+
+    public static void log(String s) {
+        panel.logEvent((JTextArea) panel.getOutStreamLogComponent(), "stream." + s);
     }
 }

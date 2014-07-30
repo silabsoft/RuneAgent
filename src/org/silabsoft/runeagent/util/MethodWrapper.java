@@ -4,30 +4,39 @@
  */
 package org.silabsoft.runeagent.util;
 
-import org.apache.bcel.generic.Type;
+
 
 /**
  *
  * @author Silabsoft
  */
-public class MethodWrapper extends Identifiable{
+public class MethodWrapper extends Identifiable {
 
     private final String methodName;
     private final String signature;
     private final boolean doLogging;
     private final String returnType;
-    public MethodWrapper(String identity, String methodName,String signature,boolean doLogging,String returnType) {
+    private final String special;
+
+    public MethodWrapper(String identity, String methodName, String signature, boolean doLogging, String returnType, String special) {
         super(identity);
         this.methodName = methodName;
         this.signature = signature;
         this.doLogging = doLogging;
-        this.returnType =returnType;
+        this.returnType = returnType;
+        this.special = special;
     }
 
-    public MethodWrapper(String identity, String methodName,String signature,boolean doLogging) {
-       this(identity,methodName,signature,doLogging,null);
+    public MethodWrapper(String identity, String methodName, String signature, boolean doLogging, String returnType) {
+
+        this(identity, methodName, signature, doLogging, returnType, null);
+    }
+
+    public MethodWrapper(String identity, String methodName, String signature, boolean doLogging) {
+        this(identity, methodName, signature, doLogging, null, null);
 
     }
+
     public String getMethodName() {
         return methodName;
     }
@@ -44,5 +53,8 @@ public class MethodWrapper extends Identifiable{
         return returnType;
     }
 
+    public String getSpecial() {
+        return special;
+    }
 
 }
